@@ -22,12 +22,38 @@ namespace Example.WebApi.Controllers
             _logger = logger;
         }
 
+        [HttpGet("{customerId}")]
+        public IActionResult GetCustomer(long customerId)
+        {
+            try
+            {
+                return Ok(_customerService.GetCustomer(customerId));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
         [HttpGet]
         public IActionResult GetAllCustomers()
         {
             try
             {
                 return Ok(_customerService.GetAllCustomers());
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpDelete("{customerId}")]
+        public IActionResult DeleteCustomer(long customerId)
+        {
+            try
+            {
+                return Ok(_customerService.DeleteCustomer(customerId));
             }
             catch (Exception ex)
             {

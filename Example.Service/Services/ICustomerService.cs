@@ -7,5 +7,7 @@ namespace Example.Service.Services
     {
         GetAllCustomersResponse GetAllCustomers();
         void AddCustomer(AddCustomerRequest request);
+        GetCustomerResponse GetCustomer(long customerId);
+        DeleteCustomerResponse DeleteCustomer(long customerId);
     }
 }

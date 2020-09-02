@@ -28,8 +28,11 @@ namespace Example.Service.Validation
         {
             var errors = new List<string>();
 
-            if (string.IsNullOrEmpty(request.Name))
-                errors.Add("Customer Name must be populated");
+            if (string.IsNullOrEmpty(request.FirstName))
+                errors.Add("Customer First Name must be populated");
+
+            if (string.IsNullOrEmpty(request.LastName))
+                errors.Add("Customer Last Name must be populated");
 
             if (errors.Any())
             {

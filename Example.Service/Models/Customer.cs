@@ -1,7 +1,9 @@
-﻿namespace Example.Service.Services.Requests
+﻿namespace Example.Service.Models
 {
-    public class AddCustomerRequest
+    public class Customer
     {
+        public long Id { get; set; }
+
         public string FirstName { get; set; }
 
         public string LastName { get; set; }

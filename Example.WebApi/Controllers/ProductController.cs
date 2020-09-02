@@ -3,6 +3,7 @@ using Example.Data;
 using Example.Service.Services;
 using Example.Service.Services.Requests;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace Example.WebApi.Controllers
 {
@@ -12,14 +13,16 @@ namespace Example.WebApi.Controllers
     {
         private readonly IProductService _productService;
         private readonly DatabaseContext _context;
+        private readonly ILogger<ProductController> _logger;
 
-        public ProductController(DatabaseContext context, IProductService productService)
+        public ProductController(DatabaseContext context, IProductService productService, ILogger<ProductController> logger)
         {
             _context = context;
             _productService = productService;
+            _logger = logger;
         }
 
-        [HttpGet()]
+        [HttpGet]
         public IActionResult GetAllProducts()
         {
             try
@@ -32,7 +35,7 @@ namespace Example.WebApi.Controllers
             }
         }
 
-        [HttpPost()]
+        [HttpPost]
         public IActionResult AddProduct(AddProductRequest request)
         {
             try
