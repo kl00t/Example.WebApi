@@ -9,10 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Validation\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Example.Data\Example.Data.csproj" />
   </ItemGroup>
 

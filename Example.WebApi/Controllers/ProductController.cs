@@ -1,5 +1,7 @@
-﻿using Example.Data;
+﻿using System;
+using Example.Data;
 using Example.Service.Services;
+using Example.Service.Services.Requests;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Example.WebApi.Controllers
@@ -15,6 +17,37 @@ namespace Example.WebApi.Controllers
         {
             _context = context;
             _productService = productService;
+        }
+
+        [HttpGet()]
+        public IActionResult GetAllProducts()
+        {
+            try
+            {
+                return Ok(_productService.GetAllProducts());
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpPost()]
+        public IActionResult AddProduct(AddProductRequest request)
+        {
+            try
+            {
+                _productService.AddProduct(request);
+                return Ok();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
         }
     }
 }

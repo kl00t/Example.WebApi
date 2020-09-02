@@ -23,5 +23,11 @@ namespace Example.WebApi.Controllers
         {
             return StatusCode(200);
         }
+
+        [HttpPost]
+        public IActionResult CreateOrder()
+        {
+            return StatusCode(200);
+        }
     }
 }
