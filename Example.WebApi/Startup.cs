@@ -31,7 +31,7 @@ namespace Example.WebApi
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "PatientBookingApi", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Example.WebApi", Version = "v1" });
             });
 
             services.RegisterServices();

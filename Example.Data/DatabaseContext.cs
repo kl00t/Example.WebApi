@@ -10,8 +10,6 @@ namespace Example.Data
 
         }
 
-        public DbSet<Order> Order { get; set; }
         public DbSet<Customer> Customer { get; set; }
-        public DbSet<Product> Product { get; set; }
     }
 }

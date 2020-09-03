@@ -3,7 +3,8 @@
 namespace Example.Tests
 {
     [TestFixture]
-    public class ProductServiceTests
+    public class AddCustomerRequestValidatorTests
     {
+
     }
 }
