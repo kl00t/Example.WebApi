@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using Example.Data;
 using Example.Service.Services;
 using Example.Service.Services.Requests;
 using Microsoft.AspNetCore.Mvc;
@@ -14,14 +13,12 @@ namespace Example.WebApi.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly ICustomerService _customerService;
-        private readonly DatabaseContext _context;
         private readonly ILogger<CustomerController> _logger;
 
-        public CustomerController(DatabaseContext context, ICustomerService customerService, ILogger<CustomerController> logger)
+        public CustomerController(ICustomerService customerService, ILogger<CustomerController> logger)
         {
-            _context = context;
-            _customerService = customerService;
-            _logger = logger;
+            _customerService = customerService ?? throw new ArgumentNullException(nameof(customerService));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         [HttpGet("{customerId}")]
@@ -40,6 +37,7 @@ namespace Example.WebApi.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error in GetCustomer: {ex.Message}");
                 return StatusCode(500, ex);
             }
         }
@@ -53,9 +51,10 @@ namespace Example.WebApi.Controllers
             {
                 return Ok(_customerService.GetAllCustomers());
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                return StatusCode(500, ex);
+                _logger.LogError($"Error in GetAllCustomers: {exception.Message}");
+                return StatusCode(500, exception);
             }
         }
 
@@ -74,9 +73,10 @@ namespace Example.WebApi.Controllers
             {
                 return NotFound(knf.Message);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                return StatusCode(500, ex);
+                _logger.LogError($"Error in DeleteCustomer: {exception.Message}");
+                return StatusCode(500, exception);
             }
         }
 
@@ -91,12 +91,14 @@ namespace Example.WebApi.Controllers
                 _customerService.AddCustomer(request);
                 return Ok();
             }
-            catch (ArgumentException ex)
+            catch (ArgumentException exception)
             {
-                return BadRequest(ex.Message);
+                _logger.LogWarning($"Argument Exception in DeleteCustomer: {exception.Message}");
+                return BadRequest(exception.Message);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Error in DeleteCustomer: {ex.Message}");
                 return StatusCode(500, ex);
             }
         }

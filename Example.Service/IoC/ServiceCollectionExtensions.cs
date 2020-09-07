@@ -1,6 +1,5 @@
 ﻿using Example.Service.Services;
 using Example.Service.Services.Validation;
-using Example.Service.Validation;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Example.Service.IoC

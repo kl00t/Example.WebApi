@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using AutoMapper;
 using Example.Data;
 using Example.Service.Services.Requests;
 using Example.Service.Services.Responses;
 using Example.Service.Services.Validation;
-using Example.Service.Validation;
 
 namespace Example.Service.Services
 {
