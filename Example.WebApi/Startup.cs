@@ -1,5 +1,6 @@
 using Example.Data;
 using Example.Service.IoC;
+using Example.WebApi.Extension;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +38,10 @@ namespace Example.WebApi
             services.RegisterServices();
 
             services.AddAutoMapperConfiguration();
+
+            services.AddHealthChecks();
+
+            services.AddCustomSettings(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +61,7 @@ namespace Example.WebApi
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/healthcheck");
             });
 
             app.UseSwagger();
@@ -64,7 +70,7 @@ namespace Example.WebApi
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "PatientBookingApi V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Example.WebApi V1");
                 c.RoutePrefix = string.Empty;
             });
         }
