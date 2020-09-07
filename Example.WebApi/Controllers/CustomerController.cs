@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Net;
 using Example.Data;
 using Example.Service.Services;
 using Example.Service.Services.Requests;
@@ -23,11 +25,18 @@ namespace Example.WebApi.Controllers
         }
 
         [HttpGet("{customerId}")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public IActionResult GetCustomer(long customerId)
         {
             try
             {
                 return Ok(_customerService.GetCustomer(customerId));
+            }
+            catch (KeyNotFoundException knf)
+            {
+                return NotFound(knf.Message);
             }
             catch (Exception ex)
             {
@@ -36,6 +45,8 @@ namespace Example.WebApi.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public IActionResult GetAllCustomers()
         {
             try
@@ -49,11 +60,19 @@ namespace Example.WebApi.Controllers
         }
 
         [HttpDelete("{customerId}")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public IActionResult DeleteCustomer(long customerId)
         {
             try
             {
-                return Ok(_customerService.DeleteCustomer(customerId));
+                _customerService.DeleteCustomer(customerId);
+                return Ok();
+            }
+            catch (KeyNotFoundException knf)
+            {
+                return NotFound(knf.Message);
             }
             catch (Exception ex)
             {
@@ -62,6 +81,9 @@ namespace Example.WebApi.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public IActionResult AddCustomer(AddCustomerRequest request)
         {
             try

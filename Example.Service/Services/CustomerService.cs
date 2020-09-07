@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using AutoMapper;
 using Example.Data;
 using Example.Service.Services.Requests;
@@ -50,12 +51,28 @@ namespace Example.Service.Services
 
         public GetCustomerResponse GetCustomer(long customerId)
         {
-            throw new NotImplementedException();
+            var customer = _context.Customer.Find(customerId);
+            if (customer == null)
+            {
+                throw new KeyNotFoundException($"The customer id: {customerId} does not exist.");
+            }
+
+            return new GetCustomerResponse
+            {
+                Customer = _mapper.Map<Models.Customer>(customer)
+            };
         }
 
-        public DeleteCustomerResponse DeleteCustomer(long customerId)
+        public void DeleteCustomer(long customerId)
         {
-            throw new NotImplementedException();
+            var customer = _context.Customer.Find(customerId);
+            if (customer == null)
+            {
+                throw new KeyNotFoundException($"The customer id: {customerId} does not exist.");
+            }
+
+            _context.Customer.Remove(customer);
+            _context.SaveChanges();
         }
     }
 }
