@@ -17,6 +17,13 @@ namespace Example.Service.IoC
             CreateMap<AddCustomerRequest, Data.Models.Customer>()
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName))
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName))
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
+                .ForAllOtherMembers(opt => opt.Ignore());
+
+            // from the request to the client user model.
+            CreateMap<AddCustomerRequest, Client.Models.User>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => "Joe"))
+                .ForMember(dest => dest.Password, opt => opt.MapFrom(src => "MyCurrentPassword"))
                 .ForAllOtherMembers(opt => opt.Ignore());
         }
     }

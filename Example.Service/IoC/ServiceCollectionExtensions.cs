@@ -1,5 +1,4 @@
-﻿using Example.Client;
-using Example.Service.Services;
+﻿using Example.Service.Services;
 using Example.Service.Services.Validation;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,11 +13,6 @@ namespace Example.Service.IoC
 
             // Validation
             collection.AddScoped<IAddCustomerRequestValidator, AddCustomerRequestValidator>();
-
-            // Http handler
-            collection.AddTransient<FooClientHttpHandler>();
-
-            // TODO: Add http client.
         }
     }
 }

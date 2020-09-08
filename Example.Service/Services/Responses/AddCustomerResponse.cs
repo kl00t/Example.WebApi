@@ -2,7 +2,7 @@
 
 namespace Example.Service.Services.Responses
 {
-    public class GetCustomerResponse
+    public class AddCustomerResponse
     {
         public Customer Customer { get; set; }
     }

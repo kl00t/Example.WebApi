@@ -66,8 +66,7 @@ namespace Example.WebApi.Controllers
         {
             try
             {
-                _customerService.DeleteCustomer(customerId);
-                return Ok();
+                return Ok(_customerService.DeleteCustomer(customerId));
             }
             catch (KeyNotFoundException knf)
             {
@@ -88,8 +87,7 @@ namespace Example.WebApi.Controllers
         {
             try
             {
-                _customerService.AddCustomer(request);
-                return Ok();
+                return Ok(_customerService.AddCustomer(request));
             }
             catch (ArgumentException exception)
             {

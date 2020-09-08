@@ -43,7 +43,7 @@ namespace Example.Tests.Services
             // Assert
             customer.FirstName.Should().BeEquivalentTo(addCustomerRequest.FirstName);
             customer.LastName.Should().BeEquivalentTo(addCustomerRequest.LastName);
-            customer.Email.Should().BeNullOrEmpty(); // not mapped
+            customer.Email.Should().BeEquivalentTo(addCustomerRequest.Email);
         }
 
         [Test]

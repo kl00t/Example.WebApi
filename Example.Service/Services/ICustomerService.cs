@@ -6,8 +6,8 @@ namespace Example.Service.Services
     public interface ICustomerService
     {
         GetAllCustomersResponse GetAllCustomers();
-        void AddCustomer(AddCustomerRequest request);
+        AddCustomerResponse AddCustomer(AddCustomerRequest request);
         GetCustomerResponse GetCustomer(long customerId);
-        void DeleteCustomer(long customerId);
+        DeleteCustomerResponse DeleteCustomer(long customerId);
     }
 }

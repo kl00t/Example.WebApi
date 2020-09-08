@@ -42,6 +42,8 @@ namespace Example.WebApi
             services.AddHealthChecks();
 
             services.AddCustomSettings(Configuration);
+
+            services.AddCustomClients(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

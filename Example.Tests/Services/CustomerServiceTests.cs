@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoFixture;
 using AutoMapper;
+using Example.Client;
+using Example.Client.Models;
 using Example.Data;
 using Example.Service.IoC;
 using Example.Service.Models;
@@ -28,6 +30,7 @@ namespace Example.Tests.Services
         private CustomerService _customerService;
         private IMapper _mapper;
         private Mock<IAddCustomerRequestValidator> _validator;
+        private Mock<IUserClient> _userClient;
 
         [SetUp]
         public void SetUp()
@@ -44,6 +47,7 @@ namespace Example.Tests.Services
             // Mock setup
             _databaseContext = new DatabaseContext(new DbContextOptionsBuilder<DatabaseContext>().UseInMemoryDatabase(Guid.NewGuid().ToString()).Options);
             _validator = _mockRepository.Create<IAddCustomerRequestValidator>();
+            _userClient = _mockRepository.Create<IUserClient>();
 
             // Mock default
             SetupMockDefaults();
@@ -52,7 +56,8 @@ namespace Example.Tests.Services
             _customerService = new CustomerService(
                 _databaseContext,
                 _mapper,
-                _validator.Object
+                _validator.Object,
+                _userClient.Object
             );
         }
 
@@ -60,6 +65,8 @@ namespace Example.Tests.Services
         {
             _validator.Setup(x => x.ValidateRequest(It.IsAny<AddCustomerRequest>()))
                 .Returns(new ValidationResult(true));
+
+            _userClient.Setup(x => x.CreateUser(It.IsAny<User>())).ReturnsAsync(""); // TODO: Setup mock success.
         }
 
         [Test]
@@ -68,7 +75,8 @@ namespace Example.Tests.Services
             Assert.Throws<ArgumentNullException>(() => new CustomerService(
                 null, 
                 Mock.Of<IMapper>(), 
-                Mock.Of<IAddCustomerRequestValidator>()));
+                Mock.Of<IAddCustomerRequestValidator>(), 
+                Mock.Of<IUserClient>()));
         }
 
         [Test]
@@ -77,7 +85,8 @@ namespace Example.Tests.Services
             Assert.Throws<ArgumentNullException>(() => new CustomerService(
                 _databaseContext,
                 null,
-                Mock.Of<IAddCustomerRequestValidator>()));
+                Mock.Of<IAddCustomerRequestValidator>(), 
+                Mock.Of<IUserClient>()));
         }
 
         [Test]
@@ -86,7 +95,8 @@ namespace Example.Tests.Services
             Assert.Throws<ArgumentNullException>(() => new CustomerService(
                 _databaseContext,
                 Mock.Of<IMapper>(),
-                null));
+                null, 
+                Mock.Of<IUserClient>()));
         }
 
         [Test]
@@ -127,6 +137,7 @@ namespace Example.Tests.Services
             {
                 FirstName = request.FirstName,
                 LastName = request.LastName,
+                Email = request.Email,
                 Created = DateTime.UtcNow
             };
 
