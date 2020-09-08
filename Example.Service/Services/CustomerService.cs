@@ -44,7 +44,7 @@ namespace Example.Service.Services
                 throw new ArgumentException(validationResult.Errors.First());
             }
 
-            // TODO: Add user to service
+            // TODO: Call create user.
             //var user = _mapper.Map<Client.Models.User>(request);
             //_userClient.CreateUser(user);
 

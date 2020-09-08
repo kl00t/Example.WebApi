@@ -25,33 +25,36 @@ namespace Example.Client
                 RequestUri = new Uri("token", UriKind.Relative)
             };
 
-            var response = await _httpClient.SendAsync(httpRequestMessage);
+            using var httpResponseMessage = await _httpClient.SendAsync(httpRequestMessage);
+            if (!httpResponseMessage.IsSuccessStatusCode)
+            {
+                throw new Exception(httpResponseMessage.ReasonPhrase);
+            }
 
-            var authResponse = response.Content.ReadAsAsync<string>();
-
-            return authResponse.Result;
+            var tokenResponse = await httpResponseMessage.Content.ReadAsAsync<TokenResponse>();
+            return tokenResponse.Token;
         }
 
         public async Task<string> CreateUser(User user)
         {
             var authToken = await GetAuthToken();
 
-            var jsonRequest = JsonConvert.SerializeObject(user);
-
             var httpRequestMessage = new HttpRequestMessage
             {
                 Method = HttpMethod.Post,
-                Content = new StringContent(jsonRequest, Encoding.UTF8, "application/json"),
-                RequestUri = new Uri("users", UriKind.Relative),
+                //Content = new StringContent(), // TODO: must be posted as form data.
+                RequestUri = new Uri("users", UriKind.Relative)
             };
 
             httpRequestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
 
-            var response = _httpClient.SendAsync(httpRequestMessage);
+            using var httpResponseMessage = await _httpClient.SendAsync(httpRequestMessage);
+            if (httpResponseMessage.IsSuccessStatusCode)
+            {
+                return await httpResponseMessage.Content.ReadAsAsync<string>(); // TODO: What is the response type?
+            }
 
-            var result = response.Result.Content.ReadAsAsync<string>();
-
-            return result.Result;
+            throw new Exception(httpResponseMessage.ReasonPhrase);
         }
 
         public async Task<string> GetUser(long userId)
@@ -66,11 +69,13 @@ namespace Example.Client
 
             httpRequestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
 
-            var response = _httpClient.SendAsync(httpRequestMessage);
+            using var httpResponseMessage = await _httpClient.SendAsync(httpRequestMessage);
+            if (httpResponseMessage.IsSuccessStatusCode)
+            {
+                return await httpResponseMessage.Content.ReadAsAsync<string>();
+            }
 
-            var result = response.Result.Content.ReadAsAsync<string>();
-
-            return result.Result;
+            throw new Exception(httpResponseMessage.ReasonPhrase);
         }
 
         public async Task<string> DeleteUser(long userId)
@@ -85,11 +90,13 @@ namespace Example.Client
 
             httpRequestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
 
-            var response = _httpClient.SendAsync(httpRequestMessage);
+            using var httpResponseMessage = await _httpClient.SendAsync(httpRequestMessage);
+            if (httpResponseMessage.IsSuccessStatusCode)
+            {
+                return await httpResponseMessage.Content.ReadAsAsync<string>();
+            }
 
-            var result = response.Result.Content.ReadAsAsync<string>();
-
-            return result.Result;
+            throw new Exception(httpResponseMessage.ReasonPhrase);
         }
 
         public async Task<string> UpdateUser(long userId, User user)
@@ -107,11 +114,13 @@ namespace Example.Client
 
             httpRequestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
 
-            var response = _httpClient.SendAsync(httpRequestMessage);
+            using var httpResponseMessage = await _httpClient.SendAsync(httpRequestMessage);
+            if (httpResponseMessage.IsSuccessStatusCode)
+            {
+                return await httpResponseMessage.Content.ReadAsAsync<string>();
+            }
 
-            var result = response.Result.Content.ReadAsAsync<string>();
-
-            return result.Result;
+            throw new Exception(httpResponseMessage.ReasonPhrase);
         }
     }
 }

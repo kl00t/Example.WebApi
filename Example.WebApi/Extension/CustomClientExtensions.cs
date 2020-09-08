@@ -14,6 +14,8 @@ namespace Example.WebApi.Extension
             {
                 var apiSettings = new ApiSettings();
                 configuration.GetSection(nameof(ApiSettings)).Bind(apiSettings);
+                //client.DefaultRequestHeaders.Accept.Clear();
+                //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json")); // TODO: Is this required?
                 client.BaseAddress = new Uri(apiSettings.Url);
             });
         }

@@ -91,7 +91,7 @@ namespace Example.WebApi.Controllers
             }
             catch (ArgumentException exception)
             {
-                _logger.LogWarning($"Argument Exception in DeleteCustomer: {exception.Message}");
+                _logger.LogWarning($"Argument Exception in AddCustomer: {exception.Message}");
                 return BadRequest(exception.Message);
             }
             catch (Exception ex)
