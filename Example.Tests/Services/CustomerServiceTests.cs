@@ -69,7 +69,7 @@ namespace Example.Tests.Services
             _userClient.Setup(x => x.CreateUser(It.IsAny<User>())).ReturnsAsync(""); // TODO: Setup mock success.
         }
 
-        [Test]
+        [Test, Order(1)]
         public void CustomerService_ThrowsArgumentNullException_With_Null_DatabaseContext()
         {
             Assert.Throws<ArgumentNullException>(() => new CustomerService(
@@ -79,7 +79,7 @@ namespace Example.Tests.Services
                 Mock.Of<IUserClient>()));
         }
 
-        [Test]
+        [Test, Order(1)]
         public void CustomerService_ThrowsArgumentNullException_With_Null_Mapper()
         {
             Assert.Throws<ArgumentNullException>(() => new CustomerService(
@@ -89,7 +89,7 @@ namespace Example.Tests.Services
                 Mock.Of<IUserClient>()));
         }
 
-        [Test]
+        [Test, Order(1)]
         public void CustomerService_ThrowsArgumentNullException_With_Null_Validator()
         {
             Assert.Throws<ArgumentNullException>(() => new CustomerService(

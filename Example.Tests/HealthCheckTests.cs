@@ -1,11 +1,13 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
+using Example.Tests.Attributes;
 using Example.WebApi;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
 namespace Example.Tests
 {
+    [TestCaseOrderer("Example.Tests.Orderers.PriorityOrderer", "Example.Tests")]
     public sealed class HealthCheckTests : IClassFixture<WebApplicationFactory<Startup>>
     {
         private readonly WebApplicationFactory<Startup> _factory;
@@ -15,7 +17,7 @@ namespace Example.Tests
             _factory = factory;
         }
 
-        [Fact]
+        [Fact, TestPriority(1)]
         public async Task HealthCheck_ShouldReturnsOK()
         {
             // Arrange
